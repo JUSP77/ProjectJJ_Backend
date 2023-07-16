@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.projectjj.quizuxui.dao.UserAnswerDao">
+
+    <resultMap id="UserAnswerResultMap" type="com.projectjj.quizuxui.vo.UserAnswer">
+        <id column="USER_ANSWER_ID" property="userAnswerId"/>
+        <result column="QUIZ_NO" property="quizNo"/>
+        <result column="USER_ANSWER" property="userAnswer"/>
+        <result column="SUBMISSION_TIME" property="submissionTime"/>
+        <result column="USER_ID" property="userId"/>
+    </resultMap>
+
+    <insert id="insertUserAnswer" parameterType="com.projectjj.quizuxui.vo.UserAnswer">
+        INSERT INTO USERANSWER (QUIZ_NO, USER_ANSWER, SUBMISSION_TIME, USER_ID)
+        VALUES (#{quizNo}, #{userAnswer}, #{submissionTime}, #{userId})
+    </insert>
+
+    <select id="countUserCorrectAnswer" resultMap="UserAnswerResultMap">
+        SELECT USER_ANSWER
+        FROM USERANSWER
+        WHERE USER_ID = #{ userId }
+    </select>
+
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.projectjj.quizuxui.dao.QuizDao">
+
+    <resultMap id="QuizResultMap" type="com.projectjj.quizuxui.vo.Quiz">
+        <id column="QUIZ_NO" property="no"/>
+        <result column="QUIZ_IMG_A" property="imageA"/>
+        <result column="QUIZ_IMG_B" property="imageB"/>
+        <result column="QUIZ_CORRECT_ANSWER" property="correctAnswer"/>
+        <result column="QUIZ_HINT" property="hint"/>
+        <result column="QUIZ_EXPLANATION" property="explanation"/>
+    </resultMap>
+
+    <resultMap id="QuizStatisticsResultMap" type="com.projectjj.quizuxui.vo.QuizStatistics">
+        <id column="QUIZ_NO" property="quizNo"/>
+        <result column="ATTEMPT_COUNT" property="attempCount"/>
+        <result column="CORRECT_COUNT" property="correctCount"/>
+    </resultMap>
+
+    <resultMap id="QuizResultImgResultMap" type="com.projectjj.quizuxui.vo.QuizResultImg">
+        <id column="QUIZ_RESULT_IMG_NO" property="no"/>
+        <result column="QUIZ_RESULT_IMG_URL" property="url"/>
+        <result column="CORRECT_COUNT" property="correctCount"/>
+    </resultMap>
+
+    <insert id="insertQuiz" parameterType="com.projectjj.quizuxui.vo.Quiz">
+        INSERT INTO QUIZ (QUIZ_NO, QUIZ_IMG_A, QUIZ_IMG_B, QUIZ_CORRECT_ANSWER, QUIZ_HINT, QUIZ_EXPLANATION)
+        VALUES (#{no}, #{imageA, jdbcType=BINARY}, #{imageB, jdbcType=BINARY}, #{correctAnswer}, #{hint}, #{explanation})
+    </insert>
+
+    <select id="getAllQuiz" resultMap="QuizResultMap">
+        select *
+        from QUIZ
+    </select>
+
+    <select id="getQuizStatistics" resultMap="QuizStatisticsResultMap">
+        select QUIZ_NO, ATTEMPT_COUNT, CORRECT_COUNT
+        from QUIZ_STATISTICS
+        where QUIZ_NO = 1
+    </select>
+
+    <update id="updateQuizStatistics" parameterType="com.projectjj.quizuxui.vo.QuizStatistics">
+        UPDATE QUIZ_STATISTICS
+        SET ATTEMPT_COUNT = #{attempCount},
+            CORRECT_COUNT = #{correctCount}
+        WHERE QUIZ_NO = #{quizNo}
+    </update>
+
+    <select id="getResultImg" resultMap="QuizResultImgResultMap">
+        SELECT QUIZ_RESULT_IMG_NO, QUIZ_RESULT_IMG_URL, CORRECT_COUNT
+        FROM QUIZ_RESULT_IMG
+        WHERE CORRECT_COUNT = #{countCorrectAnswer}
+    </select>
+
+</mapper>
