@@ -1,8 +1,6 @@
 # 프로젝트 설명
----
-
-팀 구성
- Frontend
+*팀 구성
+ -Frontend
   박주성(Vue.js)
-Backend
+-Backend
 박주성(Spring)
